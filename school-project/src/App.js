@@ -5,6 +5,7 @@ import Login from "./Components/Client/Login";
 import Navbar from "./Components/Client/Navbar";
 import { StudentListContext } from "./Context/Context";
 import Dashboard from "./Components/Client/Dashboard";
+import AdminDashboard from "./Components/Admin/AdminDashboard";
 
 class App extends React.Component {
   constructor(props) {
@@ -35,6 +36,12 @@ class App extends React.Component {
               return (
                 <>
                   <Dashboard />
+                </>
+              );
+            } else if (currentPage == "AdminDashboard") {
+              return (
+                <>
+                  <AdminDashboard />
                 </>
               );
             }

@@ -49,17 +49,21 @@ export default class Login extends Component {
       changeCurrentPage,
       updateCurrentUserEmail,
     } = this.context;
-    let verification = studentAdmissionList[0].map((item) => {
-      if (item.fields["Email Address"] === this.state.username) {
-        updateCurrentUserEmail(item.fields["Email Address"]);
-        return "true";
-      }
-    });
-    if (verification.indexOf("true") !== -1) {
-      changeCurrentPage("Dashboard");
-      this.setState({
-        isAuth: true,
+    if (this.state.username === "admin" && this.state.username === "admin") {
+      changeCurrentPage("AdminDashboard");
+    } else {
+      let verification = studentAdmissionList[0].map((item) => {
+        if (item.fields["Email Address"] === this.state.username) {
+          updateCurrentUserEmail(item.fields["Email Address"]);
+          return "true";
+        }
       });
+      if (verification.indexOf("true") !== -1) {
+        changeCurrentPage("Dashboard");
+        this.setState({
+          isAuth: true,
+        });
+      }
     }
   };
 
