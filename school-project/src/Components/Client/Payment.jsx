@@ -1,5 +1,10 @@
 import React from "react";
 import "./Payment.css";
+import { AIRTABLE_API_KEY } from "../../APIKEY/apikey";
+import Airtable from "airtable";
+import axios from "axios";
+
+export const paymentCompletedData = [];
 
 export default class Payment extends React.Component {
   constructor(props) {
@@ -30,6 +35,22 @@ export default class Payment extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    axios({
+      method: "post",
+      url: `https://api.airtable.com/v0/appxpB5McnFS1i6Us/Student Payment List?api_key=${AIRTABLE_API_KEY}`,
+      data: JSON.stringify({
+        fields: {
+          "Student Name": `${this.state.firstname}`,
+          "Student Email": `${this.state.email}`,
+          "Student Class": `${this.state.class}`,
+          "Money Paid": `${this.state.money}`,
+          "Card Holder Name": `${this.state.cardname}`,
+        },
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => paymentCompletedData.push(response.data.id));
   };
 
   render() {
