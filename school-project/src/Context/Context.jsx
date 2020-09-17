@@ -8,6 +8,7 @@ export default class StudentListContextProvider extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      currentPage: "Homepage",
       accessToken: "",
       refreshToken: "",
       firstApiAuthCall: true,
@@ -110,15 +111,29 @@ export default class StudentListContextProvider extends Component {
     });
   };
 
+  changeCurrentPage = (pageName) => {
+    this.setState({
+      currentPage: pageName,
+    });
+  };
+
   render() {
-    let { data: studentAdmissionList, insideTheDashboard } = this.state;
-    let { insideTheDashboardChange } = this;
+    let {
+      data: studentAdmissionList,
+      insideTheDashboard,
+      accessToken,
+      currentPage,
+    } = this.state;
+    let { insideTheDashboardChange, changeCurrentPage } = this;
     return (
       <StudentListContext.Provider
         value={{
           studentAdmissionList,
           insideTheDashboard,
           insideTheDashboardChange,
+          accessToken,
+          currentPage,
+          changeCurrentPage,
         }}
       >
         {this.props.children}

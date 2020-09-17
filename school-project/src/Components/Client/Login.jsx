@@ -1,6 +1,8 @@
 import React, { Component } from "react";
+import { StudentListContext } from "../../Context/Context";
 import styled from "styled-components";
 import "./Login.css";
+import Dashboard from "./Dashboard";
 
 const LoginWrapper = styled.div`
   margin: 0 auto;
@@ -24,6 +26,39 @@ const Container = styled.div`
 `;
 
 export default class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: "",
+      password: "",
+      isAuth: false,
+    };
+  }
+
+  handleChange = (e) => {
+    let { name, value } = e.target;
+    this.setState({
+      [name]: value,
+    });
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    let { studentAdmissionList, changeCurrentPage, currentPage } = this.context;
+    let verification = studentAdmissionList[0].map((item) => {
+      console.log(item);
+      if (item.fields["Email Address"] === this.state.username) {
+        return true;
+      }
+    });
+    if (verification.indexOf(true) === 1) {
+      changeCurrentPage("Dashboard");
+      this.setState({
+        isAuth: true,
+      });
+    }
+  };
+
   render() {
     return (
       <LoginWrapper>
@@ -44,21 +79,35 @@ export default class Login extends Component {
           <div className="col-right">
             <div className="login-form">
               <h2>Login</h2>
-              <form>
+              <form onSubmit={this.handleSubmit}>
                 <p>
                   <label>
                     Username or email address<span>*</span>
                   </label>
-                  <input type="text" placeholder="Username or Email" required />
+                  <input
+                    type="text"
+                    placeholder="Username or Email"
+                    name="username"
+                    value={this.state.username}
+                    onChange={this.handleChange}
+                    required
+                  />
                 </p>
                 <p>
                   <label>
                     Password<span>*</span>
                   </label>
-                  <input type="password" placeholder="Password" required />
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    name="password"
+                    value={this.state.password}
+                    onChange={this.handleChange}
+                    required
+                  />
                 </p>
                 <p>
-                  <input type="submit" value="Sign In" />
+                  <input type="submit" value="Verify" />
                 </p>
                 <p>
                   <a href="">Forget Password?</a>
@@ -71,3 +120,5 @@ export default class Login extends Component {
     );
   }
 }
+
+Login.contextType = StudentListContext;

@@ -136,7 +136,8 @@
 }
 
 .login-form button,
-.login-form input[type="submit"] {
+.login-form input[type="submit"],
+.toDashboard {
   display: inline-block;
   width: 100%;
   margin-top: 5px;

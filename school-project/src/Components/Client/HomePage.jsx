@@ -1,6 +1,8 @@
 import React, { Component } from "react";
+import { StudentListContext } from "../../Context/Context";
 import Carousel from "react-bootstrap/Carousel";
 import styled from "styled-components";
+import Axios from "axios";
 
 const CarouselWrapper = styled.div`
   position: relative;
@@ -26,6 +28,27 @@ class HomePage extends Component {
     super(props);
     this.state = {};
   }
+
+  getBrochureLink = () => {
+    let { accessToken } = this.context;
+    Axios({
+      method: "post",
+      headers: {
+        AccessToken: `${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      url: "https://api.revvsales.com/api/perma-link",
+      data: {
+        object_id: `DOC-lrjPl8fGTbma`,
+        object_type: `DOC`,
+        redirect: "follow",
+      },
+    })
+      .then((response) => {
+        window.location.href = response.data.url;
+      })
+      .catch((error) => console.log(error));
+  };
   render() {
     return (
       <div
@@ -79,10 +102,13 @@ class HomePage extends Component {
           </Carousel>
         </CarouselWrapper>
 
-        <BrochureButton>DOWNLOAD BROCHURE</BrochureButton>
+        <BrochureButton onClick={() => this.getBrochureLink()}>
+          VIEW BROCHURE
+        </BrochureButton>
       </div>
     );
   }
 }
 
+HomePage.contextType = StudentListContext;
 export default HomePage;

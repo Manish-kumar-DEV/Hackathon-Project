@@ -1,8 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Login from "./Login";
-import HomePage from "./HomePage";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { StudentListContext } from "../../Context/Context";
 
 const NavbarWrapper = styled.div`
   position: relative;
@@ -25,10 +23,27 @@ const ButtonWrappers = styled.div`
   margin-right: 20px;
 `;
 
-function Navbar() {
-  return (
-    <Router>
-      <NavbarWrapper>
+class Navbar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  changeToDashboardView = () => {
+    let { insideTheDashboardChange } = this.context;
+    insideTheDashboardChange(true);
+  };
+  checkIfPresentInDashboard = () => {
+    if (window.location.href == "http://localhost:3000/dashboard") {
+      return "d-none";
+    } else {
+      return "";
+    }
+  };
+
+  render() {
+    return (
+      <NavbarWrapper className={this.checkIfPresentInDashboard()}>
         <SchoolLogo
           src="./Blue with Gold Laurel Education Logo.png"
           alt="school logo"
@@ -44,7 +59,7 @@ function Navbar() {
               cursor: "pointer",
             }}
           >
-            <Link to="/">HOME</Link>
+            <a>HOME</a>
           </li>
         </ul>
         <ul
@@ -91,33 +106,31 @@ function Navbar() {
           >
             REGISTER
           </button>
-          <button
-            style={{
-              border: "green",
-              borderRadius: "5px",
-              padding: "5px 8px",
-              background: "#0cf24d",
+          <StudentListContext.Consumer>
+            {({ changeCurrentPage }) => {
+              return (
+                <button
+                  style={{
+                    border: "green",
+                    borderRadius: "5px",
+                    padding: "5px 8px",
+                    background: "#0cf24d",
+                  }}
+                  onClick={() => changeCurrentPage("LoginPage")}
+                >
+                  <a style={{ textDecoration: "none", color: "black" }}>
+                    LOGIN
+                  </a>
+                </button>
+              );
             }}
-          >
-            <Link
-              style={{ textDecoration: "none", color: "black" }}
-              to="/login"
-            >
-              LOGIN
-            </Link>
-          </button>
+          </StudentListContext.Consumer>
         </ButtonWrappers>
       </NavbarWrapper>
-      <Switch>
-        <Route path="/" exact>
-          <HomePage />
-        </Route>
-        <Route path="/login">
-          <Login />
-        </Route>
-      </Switch>
-    </Router>
-  );
+    );
+  }
 }
+
+Navbar.contextType = StudentListContext;
 
 export default Navbar;
