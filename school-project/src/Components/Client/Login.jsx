@@ -44,10 +44,15 @@ export default class Login extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    let { studentAdmissionList, changeCurrentPage, currentPage } = this.context;
+    let {
+      studentAdmissionList,
+      changeCurrentPage,
+      updateCurrentUserEmail,
+    } = this.context;
     let verification = studentAdmissionList[0].map((item) => {
       console.log(item);
       if (item.fields["Email Address"] === this.state.username) {
+        updateCurrentUserEmail(item.fields["Email Address"]);
         return true;
       }
     });
@@ -71,7 +76,11 @@ export default class Login extends Component {
                 <br />
                 It's totally free.
               </p>
-              <a className="btn" href="https://forms.gle/CzcJ1DLvmoKm4aVp7">
+              <a
+                className="btn"
+                href="https://forms.gle/CzcJ1DLvmoKm4aVp7"
+                target="__blank"
+              >
                 Sign Up
               </a>
             </div>

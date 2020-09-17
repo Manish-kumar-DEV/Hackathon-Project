@@ -100,11 +100,14 @@ class Navbar extends React.Component {
               color: "green",
               background: "white",
             }}
-            onClick={() =>
-              (window.location.href = "https://forms.gle/CzcJ1DLvmoKm4aVp7")
-            }
+            // onClick={() =>
+            //   (window.location.href = "https://forms.gle/CzcJ1DLvmoKm4aVp7")
+            // }
           >
-            REGISTER
+            <a href="https://forms.gle/CzcJ1DLvmoKm4aVp7" target="__blank">
+              {" "}
+              REGISTER
+            </a>
           </button>
           <StudentListContext.Consumer>
             {({ changeCurrentPage }) => {

@@ -12,7 +12,7 @@ export default class StudentListContextProvider extends Component {
       accessToken: "",
       refreshToken: "",
       firstApiAuthCall: true,
-      insideTheDashboard: false,
+      currentUserEmail: "",
       countDownTimerForRevvSalesAuthCall: 3600,
       data: [],
     };
@@ -41,9 +41,9 @@ export default class StudentListContextProvider extends Component {
 
   authRevvSalesApi = () => {
     let { countDownTimerForRevvSalesAuthCall, firstApiAuthCall } = this.state;
-    if (countDownTimerForRevvSalesAuthCall === 3600) {
-      this.startDecreasingTimer();
-    }
+    // if (countDownTimerForRevvSalesAuthCall === 3600) {
+    //   // this.startDecreasingTimer();
+    // }
     if (
       countDownTimerForRevvSalesAuthCall === 3600 &&
       firstApiAuthCall === true
@@ -117,14 +117,25 @@ export default class StudentListContextProvider extends Component {
     });
   };
 
+  updateCurrentUserEmail = (email) => {
+    this.setState({
+      currentUserEmail: email,
+    });
+  };
+
   render() {
     let {
       data: studentAdmissionList,
       insideTheDashboard,
       accessToken,
       currentPage,
+      currentUserEmail,
     } = this.state;
-    let { insideTheDashboardChange, changeCurrentPage } = this;
+    let {
+      insideTheDashboardChange,
+      changeCurrentPage,
+      updateCurrentUserEmail,
+    } = this;
     return (
       <StudentListContext.Provider
         value={{
@@ -133,7 +144,9 @@ export default class StudentListContextProvider extends Component {
           insideTheDashboardChange,
           accessToken,
           currentPage,
+          currentUserEmail,
           changeCurrentPage,
+          updateCurrentUserEmail,
         }}
       >
         {this.props.children}

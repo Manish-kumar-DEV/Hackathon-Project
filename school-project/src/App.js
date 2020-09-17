@@ -14,7 +14,7 @@ class App extends React.Component {
   render() {
     return (
       <>
-        <Dashboard />
+        {/* <Dashboard /> */}
         <StudentListContext.Consumer>
           {({ currentPage }) => {
             if (currentPage == "Homepage") {
