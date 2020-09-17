@@ -21,10 +21,6 @@ const SideLink = styled.li`
   display: flex;
   margin: 10px auto;
   border-radius: 4px;
-
-  :hover {
-    background-color: "lightblue";
-  }
 `;
 
 export default class AdminDashboard extends React.Component {

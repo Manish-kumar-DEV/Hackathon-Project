@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 
 const WelcomeUserDashboardWrapper = styled.div`
-    border: 1px solid red;
     width: 700px,
     height: 800px,
 `;
@@ -20,7 +19,26 @@ export default class WelcomeUserDashboard extends React.Component {
     return (
       <WelcomeUserDashboardWrapper>
         <div>
-          <div>Welcome, {this.state.username}</div>
+          <div
+            style={{
+              fontFamily: "Poppins",
+              fontSize: "24px",
+              padding: "7px 15px",
+            }}
+          >
+            Hello, {this.state.username}
+          </div>
+          <div
+            style={{
+              color: "grey",
+              fontFamily: "Poppins",
+              fontSize: "16px",
+              padding: "0px 15px",
+            }}
+          >
+            {" "}
+            This is your dashboard
+          </div>
         </div>
       </WelcomeUserDashboardWrapper>
     );

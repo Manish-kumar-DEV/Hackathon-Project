@@ -6,9 +6,20 @@ import Payment from "./Payment";
 
 const SideNavBarWrapper = styled.div`
   width: 260px;
-  height: 100vh;
-  background-color: blue;
-  border: 1px solid red;
+  height: 92vh;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(89, 238, 218, 1) 0%,
+    rgba(0, 212, 255, 1) 100%
+  );
+
+  ul:hover {
+    background: linear-gradient(
+      94deg,
+      rgba(235, 238, 238, 1) 0%,
+      rgba(89, 238, 218, 1) 100%
+    );
+  }
 `;
 
 const TopNavbarWrapper = styled.div`
@@ -22,10 +33,11 @@ const SideLink = styled.li`
   display: flex;
   margin: 10px auto;
   border-radius: 4px;
+`;
 
-  :hover {
-    background-color: "lightblue";
-  }
+const SchoolLogo = styled.img`
+  height: 50px;
+  margin: 6px 10px;
 `;
 
 export default class Dashboard extends React.Component {
@@ -48,7 +60,12 @@ export default class Dashboard extends React.Component {
     )[0].fields["Student Name"];
     return (
       <div>
-        <TopNavbarWrapper />
+        <TopNavbarWrapper>
+          <SchoolLogo
+            src="./Blue with Gold Laurel Education Logo.png"
+            alt="school logo"
+          ></SchoolLogo>
+        </TopNavbarWrapper>
         <div style={{ display: "flex" }}>
           <SideNavBarWrapper>
             <ul
@@ -57,10 +74,10 @@ export default class Dashboard extends React.Component {
               <SideLink>
                 <button
                   style={{
-                    backgroundColor: "white",
+                    backgroundColor: "transparent",
                     border: "none",
                     padding: "5px 25px",
-                    border: "1px solid red",
+                    outline: "none",
                   }}
                   onClick={() =>
                     this.setState({ currentPageInDashBoard: "payment" })
@@ -74,7 +91,13 @@ export default class Dashboard extends React.Component {
           {this.state.currentPageInDashBoard === "welcome" ? (
             <WelcomeUserDashboard data={[userName, userPic]} />
           ) : this.state.currentPageInDashBoard === "payment" ? (
-            <Payment />
+            <div
+              style={{
+                margin: "auto",
+              }}
+            >
+              <Payment />
+            </div>
           ) : (
             ""
           )}
