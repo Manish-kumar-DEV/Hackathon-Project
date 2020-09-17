@@ -50,13 +50,12 @@ export default class Login extends Component {
       updateCurrentUserEmail,
     } = this.context;
     let verification = studentAdmissionList[0].map((item) => {
-      console.log(item);
       if (item.fields["Email Address"] === this.state.username) {
         updateCurrentUserEmail(item.fields["Email Address"]);
-        return true;
+        return "true";
       }
     });
-    if (verification.indexOf(true) === 1) {
+    if (verification.indexOf("true") !== -1) {
       changeCurrentPage("Dashboard");
       this.setState({
         isAuth: true,

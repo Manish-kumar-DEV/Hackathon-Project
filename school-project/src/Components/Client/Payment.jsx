@@ -4,20 +4,53 @@ import "./Payment.css";
 export default class Payment extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      firstname: "",
+      email: "",
+      class: "",
+      money: "",
+      guardian: "",
+      cardname: "",
+      cardnumber: "",
+      expyear: "",
+      expmonth: "",
+      cvv: "",
+    };
   }
   shouldComponentUpdate = (prevProps) => {
     return prevProps === this.props;
   };
 
+  handleChange = (e) => {
+    let { name, value } = e.target;
+    this.setState({
+      [name]: value,
+    });
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
   render() {
-    console.log("I am getting called");
+    let {
+      firstname,
+      email,
+      class: studentClass,
+      money,
+      guardian,
+      cardname,
+      cardnumber,
+      expyear,
+      expmonth,
+      cvv,
+    } = this.state;
     return (
       <>
         <div className="row">
           <div className="col-75">
             <div className="container">
-              <form action="/action_page.php">
+              <form onSubmit={this.handleSubmit}>
                 <div className="row">
                   <div className="col-50">
                     <h3>Student Details</h3>
@@ -28,6 +61,8 @@ export default class Payment extends React.Component {
                       type="text"
                       id="fname"
                       name="firstname"
+                      value={firstname}
+                      onChange={this.handleChange}
                       placeholder="John M. Doe"
                     />
                     <label htmlFor="email">
@@ -37,6 +72,8 @@ export default class Payment extends React.Component {
                       type="text"
                       id="email"
                       name="email"
+                      value={email}
+                      onChange={this.handleChange}
                       placeholder="john@example.com"
                     />
                     <label htmlFor="adr">
@@ -46,6 +83,8 @@ export default class Payment extends React.Component {
                       type="text"
                       id="class"
                       name="class"
+                      value={studentClass}
+                      onChange={this.handleChange}
                       placeholder="9th Standard"
                     />
 
@@ -56,15 +95,19 @@ export default class Payment extends React.Component {
                           type="text"
                           id="money"
                           name="money"
-                          placeholder="50,000/-"
+                          value={money}
+                          onChange={this.handleChange}
+                          placeholder="5,000/-"
                         />
                       </div>
                       <div className="col-50">
-                        <label htmlFor="zip">Guardain</label>
+                        <label htmlFor="zip">Guardian</label>
                         <input
                           type="text"
                           id="gurd"
-                          name="guardain"
+                          name="guardian"
+                          value={guardian}
+                          onChange={this.handleChange}
                           placeholder="Mother"
                         />
                       </div>
@@ -96,6 +139,8 @@ export default class Payment extends React.Component {
                       type="text"
                       id="cname"
                       name="cardname"
+                      value={cardname}
+                      onChange={this.handleChange}
                       placeholder="John More Doe"
                     />
                     <label htmlFor="ccnum">Credit card number</label>
@@ -103,6 +148,8 @@ export default class Payment extends React.Component {
                       type="text"
                       id="ccnum"
                       name="cardnumber"
+                      value={cardnumber}
+                      onChange={this.handleChange}
                       placeholder="1111-2222-3333-4444"
                     />
                     <label htmlFor="expmonth">Exp Month</label>
@@ -110,6 +157,8 @@ export default class Payment extends React.Component {
                       type="text"
                       id="expmonth"
                       name="expmonth"
+                      value={expmonth}
+                      onChange={this.handleChange}
                       placeholder="September"
                     />
                     <div className="row">
@@ -118,6 +167,8 @@ export default class Payment extends React.Component {
                         <input
                           type="text"
                           id="expyear"
+                          value={expyear}
+                          onChange={this.handleChange}
                           name="expyear"
                           placeholder="2018"
                         />
@@ -127,6 +178,8 @@ export default class Payment extends React.Component {
                         <input
                           type="text"
                           id="cvv"
+                          value={cvv}
+                          onChange={this.handleChange}
                           name="cvv"
                           placeholder="352"
                         />
@@ -137,7 +190,7 @@ export default class Payment extends React.Component {
                 <input
                   type="submit"
                   value="Continue to checkout"
-                  className="btn"
+                  className="btnpayment"
                 />
               </form>
             </div>
