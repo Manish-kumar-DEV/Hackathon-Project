@@ -10,6 +10,7 @@ export default class StudentListContextProvider extends Component {
     this.state = {
       accessToken: "",
       refreshToken: "",
+      firstApiAuthCall: true,
       insideTheDashboard: false,
       countDownTimerForRevvSalesAuthCall: 3600,
       data: [],
@@ -38,11 +39,17 @@ export default class StudentListContextProvider extends Component {
   };
 
   authRevvSalesApi = () => {
-    let { countDownTimerForRevvSalesAuthCall } = this.state;
+    let { countDownTimerForRevvSalesAuthCall, firstApiAuthCall } = this.state;
     if (countDownTimerForRevvSalesAuthCall === 3600) {
       this.startDecreasingTimer();
     }
-    if (countDownTimerForRevvSalesAuthCall === 3600) {
+    if (
+      countDownTimerForRevvSalesAuthCall === 3600 &&
+      firstApiAuthCall === true
+    ) {
+      this.setState({
+        firstApiAuthCall: false,
+      });
       Axios({
         method: "post",
         url: "https://api.revvsales.com/api/v2/auth/initiate-auth",
@@ -55,6 +62,23 @@ export default class StudentListContextProvider extends Component {
           password: "Maheshwar19!",
           org_domain: "ftii2306",
         }),
+      })
+        .then((response) =>
+          this.setState({
+            accessToken: response.data.User.access_token,
+            refreshToken: response.data.User.refresh_token,
+          })
+        )
+        .catch((error) => console.log(error));
+    } else {
+      Axios({
+        method: "post",
+        url: "https://api.revvsales.com/api/v2/auth/initiate-auth",
+        headers: {
+          "Content-Type": "application/json",
+          GrantType: "refreshToken",
+          RefreshToken: `${this.state.refreshToken}`,
+        },
       })
         .then((response) =>
           this.setState({
