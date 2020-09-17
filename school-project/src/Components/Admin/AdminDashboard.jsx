@@ -1,7 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import { StudentListContext } from "../../Context/Context";
-import { paymentCompletedData } from "../Client/Payment";
+import { AIRTABLE_API_KEY } from "../../APIKEY/apikey";
+import axios from "axios";
+
+const paymentCompletedData = [];
+console.log(paymentCompletedData);
 
 const SideNavBarWrapper = styled.div`
   width: 260px;
@@ -32,6 +36,17 @@ export default class AdminDashboard extends React.Component {
     super(props);
     this.state = {};
   }
+  studentPaymentDetails = () => {
+    axios
+      .get(
+        "https://api.airtable.com/v0/appxpB5McnFS1i6Us/Student Payment List?",
+        {
+          headers: { Authorization: "Bearer " + AIRTABLE_API_KEY },
+        }
+      )
+      .then((resp) => paymentCompletedData.push(resp.data.records))
+      .catch((error) => console.log(error));
+  };
 
   render() {
     return (
@@ -44,6 +59,7 @@ export default class AdminDashboard extends React.Component {
             >
               <SideLink>
                 <button
+                  onClick={this.studentPaymentDetails}
                   style={{
                     backgroundColor: "white",
                     border: "none",
