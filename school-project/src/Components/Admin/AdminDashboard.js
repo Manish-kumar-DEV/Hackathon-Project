@@ -5,7 +5,7 @@ import { AIRTABLE_API_KEY } from "../../APIKEY/apikey";
 import axios from "axios";
 
 const paymentCompletedData = [];
-console.log(paymentCompletedData);
+const alreadySentInvoice = [];
 
 const SideNavBarWrapper = styled.div`
   width: 260px;
@@ -32,8 +32,8 @@ export default class AdminDashboard extends React.Component {
     super(props);
     this.state = {};
   }
-  studentPaymentDetails = () => {
-    axios
+  studentPaymentDetails = async () => {
+    await axios
       .get(
         "https://api.airtable.com/v0/appxpB5McnFS1i6Us/Student Payment List?",
         {
@@ -41,10 +41,37 @@ export default class AdminDashboard extends React.Component {
         }
       )
       .then((resp) => paymentCompletedData.push(resp.data.records))
+      .then(() => console.log(paymentCompletedData[0].length))
       .catch((error) => console.log(error));
+
+    for (let i = 0; i < paymentCompletedData[0].length; i++) {
+      if (alreadySentInvoice.indexOf(paymentCompletedData[0][i].id) === -1) {
+        alreadySentInvoice.push(paymentCompletedData[0][i].id);
+        let date = new Date(paymentCompletedData[0][i].createdTime);
+        date = date.toLocaleDateString();
+        const response = await axios({
+          method: "post",
+          url: "http://localhost:5000/screenshot",
+          data: {
+            email: "manish1771999@gmail.com",
+            password: "Maheshwar19!",
+            date: date,
+            cardHolderName:
+              paymentCompletedData[0][i].fields["Card Holder Name"],
+            studentName: paymentCompletedData[0][i].fields["Student Name"],
+            studentClass: paymentCompletedData[0][i].fields["Student Class"],
+            moneyPaid: paymentCompletedData[0][i].fields["Money Paid"],
+            studentEmail: paymentCompletedData[0][i].fields["Student Email"],
+          },
+        });
+      } else {
+        continue;
+      }
+    }
   };
 
   render() {
+    console.log(alreadySentInvoice);
     return (
       <div>
         <TopNavbarWrapper />
@@ -55,7 +82,7 @@ export default class AdminDashboard extends React.Component {
             >
               <SideLink>
                 <button
-                  onClick={this.studentPaymentDetails}
+                  onClick={() => this.studentPaymentDetails()}
                   style={{
                     backgroundColor: "white",
                     border: "none",

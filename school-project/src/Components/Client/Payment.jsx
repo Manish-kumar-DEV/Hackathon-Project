@@ -4,8 +4,6 @@ import { AIRTABLE_API_KEY } from "../../APIKEY/apikey";
 import Airtable from "airtable";
 import axios from "axios";
 
-export const paymentCompletedData = [];
-
 export default class Payment extends React.Component {
   constructor(props) {
     super(props);
@@ -50,7 +48,7 @@ export default class Payment extends React.Component {
       headers: {
         "Content-Type": "application/json",
       },
-    }).then((response) => paymentCompletedData.push(response.data.id));
+    });
   };
 
   render() {
